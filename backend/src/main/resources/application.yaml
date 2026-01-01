@@ -1,3 +1,42 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  tomcat:
+    relaxed-query-chars: ['[', ']', ',']
+
 spring:
   application:
     name: wind-turbine-maintenance
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/machine_monitoring
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate  # Przeniesione poziom wyżej
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # Dodatkowo dla ładnego logowania SQL
+        transaction:
+          jta:
+            platform: org.hibernate.service.jta.platform.internal.NoJtaPlatform
+
+  liquibase:
+    enabled: true
+    change-log: classpath:sql/db-changelog.xml
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
