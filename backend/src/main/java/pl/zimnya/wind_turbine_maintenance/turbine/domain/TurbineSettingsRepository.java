@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface TurbineSettingsRepository extends JpaRepository<TurbineSettings, Long> {
+interface TurbineSettingsRepository extends JpaRepository<TurbineSettings, Long> {
     Optional<TurbineSettings> findByCode(TurbineCode code);
 }
