@@ -20,5 +20,6 @@ public record MeasurementDto(
 
         // Flagi diagnostyczne (używamy boolean)
         boolean deIcingActive,
-        String severity // GOOD, CAUTION, FAILURE
+        String severity,
+        int targetLabel
 ) {}
