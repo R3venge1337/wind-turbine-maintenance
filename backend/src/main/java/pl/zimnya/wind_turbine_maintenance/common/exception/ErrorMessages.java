@@ -19,6 +19,13 @@ public class ErrorMessages {
     public static final String TURBINE_CITY_SIZE = "exception.turbine.city_size";
     public static final String TURBINE_CURRENT_TOOL_WEAR_MIN = "exception.turbine.current_tool_wear_min";
 
+    public static final String WEATHER_WIND_SPEED_NOT_EMPTY = "exception.weather.wind_speed.not_empty";
+    public static final String WEATHER_WIND_SPEED_MIN = "exception.weather.wind_speed.min";
+    public static final String WEATHER_WIND_SPEED_MAX = "exception.weather.wind_speed.max";
+    public static final String WEATHER_AIR_TEMP_NOT_EMPTY = "exception.weather.air_temp.not_empty";
+    public static final String WEATHER_AIR_TEMP_MIN = "exception.weather.air_temp.min";
+    public static final String WEATHER_AIR_TEMP_MAX = "exception.weather.air_temp.max";
+
     private ErrorMessages(){
 
     }
