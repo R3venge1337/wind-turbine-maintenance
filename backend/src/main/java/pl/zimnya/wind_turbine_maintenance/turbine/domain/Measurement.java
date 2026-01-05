@@ -34,4 +34,7 @@ public class Measurement extends AbstractEntityId {
     @Column
     @Enumerated(EnumType.STRING)
     private SeverityType severity;
+
+    @Column(name = "target_label")
+    private Integer targetLabel;
 }
