@@ -8,6 +8,8 @@ public record TurbineView(
         String typeCode,
         int osfLimit,
         int wearIncrement,
+        double ratedPower,
+        double deicingCost,
         double latitude,
         double longitude,
         String city,
