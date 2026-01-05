@@ -82,13 +82,9 @@ class TurbineService implements TurbineFacade {
     private void updateTurbine(final UpdateTurbineForm form, Turbine turbine) {
         turbine.setProductId(form.productId());
 
-        if(form.latitude() != null){
-            turbine.setLatitude(form.latitude());
-        }
+        setLatitudeIfNotEmpty(form, turbine);
 
-        if(form.longitude() != null) {
-            turbine.setLongitude(form.longitude());
-        }
+        setLongitudeIfNotEmpty(form, turbine);
 
         turbine.setCity(form.city());
         turbine.setCurrentToolWear(form.currentToolWear());
@@ -98,6 +94,18 @@ class TurbineService implements TurbineFacade {
         turbine.setLastUpdate(LocalDateTime.now());
 
         resetingToolWearIfValueIsZero(form, turbine);
+    }
+
+    private void setLongitudeIfNotEmpty(final UpdateTurbineForm form, Turbine turbine) {
+        if(form.longitude() != null) {
+            turbine.setLongitude(form.longitude());
+        }
+    }
+
+    private  void setLatitudeIfNotEmpty(final UpdateTurbineForm form, Turbine turbine) {
+        if(form.latitude() != null){
+            turbine.setLatitude(form.latitude());
+        }
     }
 
     private void resetingToolWearIfValueIsZero(final UpdateTurbineForm form, Turbine turbine) {
@@ -138,6 +146,8 @@ class TurbineService implements TurbineFacade {
                 turbine.getSettings().getCode().name(),
                 turbine.getSettings().getOsfLimit(),
                 turbine.getSettings().getWearIncrement(),
+                turbine.getSettings().getRatedPower(),
+                turbine.getSettings().getDeicingCost(),
                 turbine.getLatitude(),
                 turbine.getLongitude(),
                 turbine.getCity(),
