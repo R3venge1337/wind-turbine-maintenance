@@ -33,6 +33,12 @@ class TurbineSettings extends AbstractEntityId {
     @Column(name = "wear_increment", nullable = false)
     private int wearIncrement;
 
+    @Column(name = "rated_power", nullable = false)
+    private double ratedPower;
+
+    @Column(name = "deicing_cost", nullable = false)
+    private double deicingCost;
+
     @Column(name = "description")
     private String description;
 }
