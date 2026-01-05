@@ -10,7 +10,8 @@ import java.util.Arrays;
 enum SeverityType {
     GOOD(0),
     CAUTION(1),
-    FAILURE(2);
+    FAILURE(2),
+    NONE(3);
 
     private final int value;
 
@@ -18,6 +19,6 @@ enum SeverityType {
         return Arrays.stream(SeverityType.values())
                 .filter(s -> s.value == value)
                 .findFirst()
-                .orElse(GOOD);
+                .orElse(NONE);
     }
 }
