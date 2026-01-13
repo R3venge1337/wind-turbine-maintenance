@@ -1,0 +1,133 @@
+<div class="turbine-card" [class]="getSeverityClass()" [class.anomaly]="liveUpdate()?.aiData?.isAnomaly" (click)="onCardClick()">
+  
+  <div class="card-header">
+    <div class="header-main">
+      <div class="status-indicator" [class.active]="liveUpdate()?.aiData?.isActive ?? turbine().isActive"></div>
+      <div class="id-wrapper">
+        <span class="product-id">{{ turbine().productId }}</span>
+        <span class="city-tag">{{ turbine().city }}</span>
+      </div>
+    </div>
+    <div class="severity-badge" [attr.data-severity]="liveUpdate()?.aiData?.mainSeverity || turbine().mainSeverity">
+      {{ (liveUpdate()?.aiData?.mainSeverity || turbine().mainSeverity) | translate }}
+    </div>
+  </div>
+
+  <div class="card-tabs">
+    <button [class.active]="activeTab() === 'ai'" (click)="setTab('ai', $event)">
+      {{ 'CARD.TABS.AI_ANALYSIS' | translate }}
+    </button>
+    <button [class.active]="activeTab() === 'measurements'" (click)="setTab('measurements', $event)">
+      {{ 'CARD.TABS.LIVE_MEASUREMENTS' | translate }}
+    </button>
+  </div>
+
+  <div class="card-body">
+    @if (activeTab() === 'ai') {
+      <div class="tab-view fade-in">
+        <div class="ai-box" [class.anomaly-bg]="liveUpdate()?.aiData?.isAnomaly">
+          <div class="ai-header-row">
+            <div class="ai-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a10 10 0 1 0 10 10H12V2zM12 12L2.7 16.5"></path>
+              </svg>
+              <span>{{ 'CARD.AI.PREDICTION' | translate }}</span>
+            </div>
+            @if (liveUpdate()?.aiData?.isAnomaly) {
+              <span class="anomaly-tag">{{ 'CARD.AI.ANOMALY' | translate }}</span>
+            }
+          </div>
+          
+          <p class="ai-msg">
+            {{ liveUpdate()?.aiData?.aiDescription || ('CARD.AI.DEFAULT_OK' | translate) }}
+          </p>
+          
+          <div class="ai-footer-stats">
+            <div class="stat-pill">
+              <span class="s-label">{{ 'CARD.AI.ENGINE' | translate }}</span>
+              <span class="s-value" [class.healthy]="liveUpdate()?.aiData?.predictionAi === 'GOOD'">
+                {{ (liveUpdate()?.aiData?.predictionAi ?  liveUpdate()?.aiData?.predictionAi : '--') | translate }}
+              </span>
+            </div>
+            <div class="stat-pill">
+              <span class="s-label">{{ 'CARD.AI.THRESHOLDS' | translate }}</span>
+              <span class="s-value">
+                {{ (liveUpdate()?.aiData?.targetLabel ?  liveUpdate()?.aiData?.targetLabel : '--') | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeTab() === 'measurements') {
+      <div class="tab-view fade-in">
+        <div class="metrics-container">
+          <div class="main-metrics">
+            <div class="m-item">
+              <span class="m-label">{{ 'CARD.METRICS.NET_POWER' | translate }}</span>
+              <span class="m-val">{{ liveUpdate()?.measurements?.powerNetto | number:'1.0-2' }} <small>kW</small></span>
+            </div>
+            <div class="m-item">
+              <span class="m-label">{{ 'CARD.METRICS.RPM' | translate }}</span>
+              <span class="m-val">{{ liveUpdate()?.measurements?.rpm }} <small>RPM</small></span>
+            </div>
+          </div>
+
+          <div class="secondary-grid">
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.WIND' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.windSpeedKmH | number:'1.0-1' }} <small>km/h</small></span>
+            </div>
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.TORQUE' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.torque | number:'1.0-1' }} <small>Nm</small></span>
+            </div>
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.WEAR' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.toolWear }}</span>
+            </div>
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.AIR_TEMP' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.airTempCelsius | number:'1.0-1' }}°C</span>
+            </div>
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.PROC_TEMP' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.processTempCelsius | number:'1.0-1' }}°C</span>
+            </div>
+            <div class="s-item">
+              <span class="s-label">{{ 'CARD.METRICS.GEN_POWER' | translate }}</span>
+              <span class="s-val">{{ liveUpdate()?.measurements?.powerGenerated | number:'1.0-1' }} <small>kW</small></span>
+            </div>
+          </div>
+        </div>
+
+        @if (liveUpdate()?.measurements?.deIcingActive) {
+          <div class="de-icing-badge">{{ 'CARD.METRICS.DEICING' | translate }}</div>
+        }
+      </div>
+    }
+
+    <div class="geo-info">
+      <div class="geo-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        {{ 'CARD.FOOTER.COORDINATES' | translate }}
+      </div>
+      <div class="coords-wrapper">
+        <span>{{ (liveUpdate()?.aiData?.latitude || turbine().latitude) | number:'1.2-4' }}</span>
+        <span class="separator">|</span>
+        <span>{{ (liveUpdate()?.aiData?.longitude || turbine().longitude) | number:'1.2-4' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="footer-item">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      <span>{{ 'CARD.FOOTER.MEASUREMENT' | translate }}: <strong>{{ (liveUpdate()?.aiData?.lastUpdate || turbine().lastUpdate) | date:'HH:mm:ss' }}</strong></span>
+    </div>
+    <div class="footer-item">
+      <span>REF: <strong>{{ turbine().typeCode }}</strong></span>
+    </div>
+  </div>
+</div>
