@@ -1,0 +1,15 @@
+<div class="lang-container">
+  <span 
+    (click)="useLang('pl')" 
+    [class.selected]="currentLang() === 'pl'">
+    PL
+  </span>
+  
+  <span class="sep">/</span>
+  
+  <span 
+    (click)="useLang('en')" 
+    [class.selected]="currentLang() === 'en'">
+    EN
+  </span>
+</div>
