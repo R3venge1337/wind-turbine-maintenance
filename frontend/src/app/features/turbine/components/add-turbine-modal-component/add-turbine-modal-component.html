@@ -1,0 +1,49 @@
+<div class="add-modal">
+  <div class="modal-header">
+    <h2>{{ 'MODAL.ADD_TITLE' | translate }}</h2>
+    <p>{{ 'MODAL.ADD_SUBTITLE' | translate }}</p>
+  </div>
+
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-content">
+      <div class="input-field">
+        <label>{{ 'MODAL.PRODUCT_ID' | translate }}</label>
+        <input formControlName="productId" [placeholder]="'MODAL.PLACEHOLDERS.PRODUCT_ID' | translate">
+      </div>
+
+      <div class="input-field">
+        <label>{{ 'MODAL.CITY' | translate }}</label>
+        <input formControlName="city" [placeholder]="'MODAL.PLACEHOLDERS.CITY' | translate">
+      </div>
+
+      <div class="input-field">
+        <label>{{ 'MODAL.MODEL_TYPE' | translate }}</label>
+        <select formControlName="typeCode">
+          <option value="L">{{ 'MODAL.TYPE_OPTIONS.LOW' | translate }}</option>
+          <option value="M">{{ 'MODAL.TYPE_OPTIONS.MEDIUM' | translate }}</option>
+          <option value="H">{{ 'MODAL.TYPE_OPTIONS.HIGH' | translate }}</option>
+        </select>
+      </div>
+
+      <div class="coordinates-section">
+        <label>{{ 'MODAL.COORDINATES' | translate }}</label>
+        <div class="coords-row">
+          <input type="number" formControlName="latitude" [placeholder]="'MODAL.LATITUDE' | translate">
+          <input type="number" formControlName="longitude" [placeholder]="'MODAL.LONGITUDE' | translate">
+          <button type="button" class="map-pick-btn" (click)="onPickFromMap()" [title]="'MODAL.PICK_FROM_MAP' | translate">
+            🎯
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">
+        {{ 'MODAL.CANCEL' | translate }}
+      </button>
+      <button type="submit" class="btn-save" [disabled]="addForm.invalid">
+        {{ 'MODAL.SAVE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>
