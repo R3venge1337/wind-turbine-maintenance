@@ -20,4 +20,6 @@ public interface TurbineFacade {
     PageDto<TurbineView> findTurbines(final FilterTurbineForm filterForm, final PageableRequest pageableRequest);
 
     long countTurbines();
+
+    void resetToolWear(final String productId);
 }
