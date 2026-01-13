@@ -1,0 +1,51 @@
+.main-footer {
+  height: 35px;
+  background-color: #f1f5f9; /* Jasny szary/błękitny */
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 11px;
+  color: #64748b; /* Slate-500 */
+}
+
+.footer-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+}
+
+.status-dot.red {
+  background-color: #ef4444;
+}
+
+.github-link {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
+
+.status-dot.green {
+  background-color: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  /* Dodajemy animację */
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
