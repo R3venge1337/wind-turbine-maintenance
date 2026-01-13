@@ -25,7 +25,7 @@ class TargetLabeler {
             log.info("Wynik: {} {}", FailureType.HDF.getFailureLabel(), FailureType.HDF.getFailureMessage());
             return new LabelingResult(FailureType.HDF, SeverityType.FAILURE);
 
-        } else if (power < 3500 || power > 9500) {
+        } else if (power < 1500 || power > 9000) {
             log.info("Wynik: {} {}", FailureType.PWF.getFailureLabel(), FailureType.PWF.getFailureMessage());
             return new LabelingResult(FailureType.PWF, SeverityType.FAILURE);
         } else if (torque * toolWear > osfLimit) {
@@ -39,7 +39,7 @@ class TargetLabeler {
 // 2. JEŚLI NIE MA FAILURE, SPRAWDZAMY OSTRZEŻENIA (CAUTION)
         else if (deltaT < 10.0 && rpm < 1500) {
             return new LabelingResult(FailureType.HDF, SeverityType.CAUTION);
-        } else if (power < 4000 || power > 9000) {
+        } else if (power < 2000 || power > 8000) {
             return new LabelingResult(FailureType.PWF, SeverityType.CAUTION);
         } else if (torque * toolWear > osfLimit * 0.8) {
             return new LabelingResult(FailureType.OSF, SeverityType.CAUTION);
