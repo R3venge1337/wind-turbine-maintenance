@@ -37,4 +37,7 @@ public class Measurement extends AbstractEntityId {
 
     @Column(name = "target_label")
     private Integer targetLabel;
+
+    @Column(name = "prediction_ai")
+    private Integer predictionAi;
 }
