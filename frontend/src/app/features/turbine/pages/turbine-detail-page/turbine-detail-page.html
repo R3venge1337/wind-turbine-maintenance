@@ -1,0 +1,17 @@
+@if (isLoading()) {
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p>{{ 'COMMON.LOADING_DATA' | translate }}</p>
+  </div>
+} @else {
+  @if (turbine()) {
+    <app-turbine-detail-component
+      [turbine]="turbine()!" 
+      [measurements]="measurements()" />
+  } @else {
+    <div class="error-state">
+      <p>{{ 'COMMON.NOT_FOUND' | translate }}</p>
+      <button routerLink="/turbines">{{ 'COMMON.BACK_TO_LIST' | translate }}</button>
+    </div>
+  }
+}

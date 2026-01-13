@@ -1,0 +1,128 @@
+<div class="container fade-in">
+  <header class="page-header">
+    <button routerLink="/turbines" class="btn-back">{{ 'DETAILS.BACK_TO_LIST' | translate }}</button>
+    <div class="title-group">
+      <h1>{{ 'DETAILS.TURBINE_TITLE' | translate }} {{ turbine().productId }}</h1>
+      <span class="status-badge" [attr.data-severity]="turbine().mainSeverity">
+        {{  turbine().statusLabel | translate }}
+      </span>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="info-card">
+      <span class="icon">📍</span>
+      <div class="data">
+        <label>{{ 'DETAILS.LOCATION' | translate }}</label>
+        <strong>{{ turbine().city }}</strong>
+        <small>LAT: {{ turbine().latitude }} | LON: {{ turbine().longitude }}</small>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <span class="icon">⚙️</span>
+      <div class="data">
+        <label>{{ 'DETAILS.SPECIFICATION' | translate }}</label>
+        <strong>{{ turbine().typeCode }}</strong>
+        <small>{{ 'DETAILS.RATED_POWER' | translate }} {{ turbine().ratedPower }} kW</small>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <span class="icon">🛠️</span>
+      <div class="data">
+        <label>{{ 'DETAILS.TOOL_STATUS' | translate }}</label>
+        <div class="usage-values">
+          <strong [class.critical]="realToolUsage() > turbine().osfLimit">
+            {{ realToolUsage() | number:'1.0-0' }} 
+          </strong>
+          <span class="separator">/</span>
+          <span class="limit">{{ turbine().osfLimit | number:'1.0-0'}}</span>
+          <div class="header-with-action">
+            @if (turbine().currentToolWear >= 240) {
+              <button 
+                class="btn-reset" 
+                [disabled]="isResetting()" 
+                (click)="resetTool()">
+                {{ (isResetting() ? 'DETAILS.RESETTING' : 'DETAILS.RESET') | translate }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="progress-mini">
+          <div class="fill" 
+               [style.width.%]="calculateWearPercentage()"
+               [class.over-limit]="realToolUsage() > turbine().osfLimit">
+          </div>
+        </div>
+        <small class="raw-data">
+          {{ 'DETAILS.BASE' | translate }}: {{ turbine().currentToolWear }} | {{ 'DETAILS.TORQUE' | translate }}: {{ latestTorque() | number:'1.0-2' }} Nm
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <section class="telemetry-box">
+    <div class="box-header">
+      <div class="title-with-badge">
+        <h2>{{ 'DETAILS.TELEMETRY_TITLE' | translate }}</h2>
+      </div>
+      <p class="description">{{ 'DETAILS.TELEMETRY_DESC' | translate }}</p>
+    </div>
+
+    <div class="table-responsive">
+      <table class="telemetry-table">
+        <thead>
+          <tr>
+            <th>{{ 'DETAILS.TABLE.TIME' | translate }}</th>
+            <th>{{ 'DETAILS.TABLE.WIND' | translate }} [km/h]</th>
+            <th>{{ 'DETAILS.TABLE.AIR_TEMP' | translate }} [°C]</th>
+            <th>{{ 'DETAILS.TABLE.RPM' | translate }}</th>
+            <th>{{ 'DETAILS.TABLE.TORQUE' | translate }} [Nm]</th>
+            <th>{{ 'DETAILS.TABLE.POWER_GEN' | translate }} [kW]</th>
+            <th>{{ 'DETAILS.TABLE.POWER_NET' | translate }} [kW]</th>
+            <th>{{ 'DETAILS.TABLE.PROC_TEMP' | translate }} [°C]</th>
+            <th>{{ 'DETAILS.TABLE.WEAR' | translate }}</th>
+            <th>{{ 'DETAILS.TABLE.DEICING' | translate }}</th>
+            <th>{{ 'DETAILS.TABLE.SENSOR_LABEL' | translate }}</th>
+            <th>{{ 'DETAILS.TABLE.AI_LABEL' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of measurements(); track $index) {
+            <tr>
+              <td class="time-col">{{ m.timestamp | date:'HH:mm:ss' }}</td>
+              <td class="mono">{{ m.windSpeedKmH | number:'1.0-2' }}</td>
+              <td class="mono">{{ m.airTempCelsius | number:'1.0-2' }}</td>
+              <td class="mono highlight">{{ m.rpm | number:'1.0-0' }}</td>
+              <td class="mono">{{ m.torque | number:'1.0-2' }}</td>
+              <td class="mono">{{ m.powerGenerated | number:'1.0-2' }}</td>
+              <td class="mono font-bold">{{ m.powerNetto | number:'1.0-2' }}</td>
+              <td>
+                <span class="temp-val" [class.critical]="m.processTempCelsius > 70">
+                  {{ m.processTempCelsius | number:'1.0-1' }}°C
+                </span>
+              </td>
+              <td class="mono">{{ m.toolWear | number:'1.0-2' }}</td>
+              <td>
+                <span class="deicing-tag" [class.active]="m.deIcingActive">
+                  {{ (m.deIcingActive ? 'FOOTER.STATUS_ACTIVE' : 'FOOTER.STATUS_DISCONNECTED') | translate }}
+                </span>
+              </td>
+              <td>
+                <span class="mono sensor" [attr.data-prediction]="m.severity">
+                  {{  m.targetLabel| translate }}
+                </span>
+              </td>
+              <td>
+                <span class="ai-pill" [attr.data-prediction]="m.severity">
+                  {{  m.predictionAI| translate }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
