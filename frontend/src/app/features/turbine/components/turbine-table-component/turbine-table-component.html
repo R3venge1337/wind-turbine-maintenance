@@ -1,0 +1,86 @@
+<div class="table-wrapper fade-in">
+  <div class="table-container">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th>{{ 'LIST.TABLE.STATUS' | translate }}</th>
+          <th>{{ 'LIST.TABLE.CITY' | translate }}</th>
+          <th>{{ 'LIST.TABLE.NAME' | translate }}</th>
+          <th>{{ 'LIST.TABLE.TYPE' | translate }}</th>
+          <th>{{ 'LIST.TABLE.COORDS' | translate }}</th>
+          <th>{{ 'LIST.TABLE.OSF_LIMIT' | translate }}</th>
+          <th>{{ 'LIST.TABLE.DEICING_COST' | translate }}</th>
+          <th>{{ 'LIST.TABLE.RATED_POWER' | translate }}</th>
+          <th>{{ 'LIST.TABLE.CURRENT_WEAR' | translate }}</th>
+          <th>{{ 'LIST.TABLE.LAST_UPDATE' | translate }}</th>
+          <th>{{ 'LIST.TABLE.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (turbine of turbines(); track turbine.id) {
+          <tr [class.inactive]="!turbine.isActive">
+            <td>
+              <div class="status-cell">
+                <span class="status-dot" [attr.data-severity]="turbine.mainSeverity"></span>
+                <div class="status-meta">
+                  <span class="label">{{ turbine.mainSeverity | translate }}</span>
+                  <small>{{ turbine.statusDescription }}</small>
+                </div>
+              </div>
+            </td>
+
+            <td class="city-cell">{{ turbine.city }}</td>
+
+            <td class="name-cell">
+              <span class="product-id-tag">{{ turbine.productId }}</span>
+            </td>
+
+            <td class="type-cell">
+              <span class="type-badge">{{ turbine.typeCode }}</span>
+            </td>
+
+            <td class="coords-cell">
+              <code>{{ turbine.latitude | number:'1.2-4' }}</code>
+              <code>{{ turbine.longitude | number:'1.2-4' }}</code>
+            </td>
+
+            <td class="numeric-cell">{{ turbine.osfLimit }}</td>
+
+            <td class="numeric-cell">
+              {{ turbine.deicingCost | number:'1.2-2' }} <small>kW</small>
+            </td>
+
+            <td class="numeric-cell">
+              <strong>{{ turbine.ratedPower }}</strong> <small>kW</small>
+            </td>
+
+            <td class="numeric-cell wear-cell">
+              {{ turbine.currentToolWear }}
+            </td>
+
+            <td class="timestamp-cell">
+              <span>{{ turbine.lastUpdate | date:'dd.MM.yyyy' }}</span>
+              <strong>{{ turbine.lastUpdate | date:'HH:mm:ss' }}</strong>
+            </td>
+
+            <td>
+              <div class="actions">
+                <button class="btn-details" [routerLink]="['/turbines', turbine.productId]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  {{ 'LIST.ACTIONS.DETAILS' | translate }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="11" class="empty-state">{{ 'LIST.EMPTY' | translate }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

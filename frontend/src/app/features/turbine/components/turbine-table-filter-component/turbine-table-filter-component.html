@@ -1,0 +1,48 @@
+<div class="filter-card">
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="filter-grid">
+    
+    <div class="field">
+      <label>{{ 'FILTERS.PRODUCT_ID' | translate }}</label>
+      <input type="text" formControlName="productId" [placeholder]="'MODAL.PLACEHOLDERS.PRODUCT_ID' | translate">
+    </div>
+
+    <div class="field">
+        <label>{{ 'FILTERS.TYPE' | translate }}</label>
+          <select formControlName="typeCode" class="filter-select">
+            <option value="">{{ 'FILTERS.ALL_TYPES' | translate }}</option>
+            <option value="L">{{ 'MODAL.TYPE_OPTIONS.LOW' | translate }}</option>
+            <option value="M">{{ 'MODAL.TYPE_OPTIONS.MEDIUM' | translate }}</option>
+            <option value="H">{{ 'MODAL.TYPE_OPTIONS.HIGH' | translate }}</option>
+          </select>
+    </div>
+
+    <div class="field">
+        <label>{{ 'FILTERS.STATUS' | translate }}</label>
+          <select formControlName="severity" class="filter-select">
+            <option value="">{{ 'FILTERS.ALL_STATUSES' | translate }}</option>
+            <option value="GOOD">{{ 'TURBINE.HEALTHY' | translate }}</option>
+            <option value="CAUTION">{{ 'TURBINE.CAUTION' | translate }}</option>
+            <option value="FAILURE">{{ 'TURBINE.FAILURE' | translate }}</option>
+          </select>
+    </div>
+
+    <div class="field">
+      <label>{{ 'FILTERS.CITY' | translate }}</label>
+      <input type="text" formControlName="city" [placeholder]="'FILTERS.PLACEHOLDERS.CITY' | translate">
+    </div>
+
+    <div class="field">
+      <label>{{ 'FILTERS.WEAR_RANGE' | translate }}</label>
+      <div class="range-inputs">
+        <input type="number" formControlName="minToolWear" [placeholder]="'FILTERS.PLACEHOLDERS.MIN' | translate">
+        <input type="number" formControlName="maxToolWear" [placeholder]="'FILTERS.PLACEHOLDERS.MAX' | translate">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-apply">{{ 'FILTERS.APPLY' | translate }}</button>
+      <button type="button" class="btn-reset" (click)="resetFilters()">{{ 'FILTERS.RESET' | translate }}</button>
+    </div>
+    
+  </form>
+</div>
