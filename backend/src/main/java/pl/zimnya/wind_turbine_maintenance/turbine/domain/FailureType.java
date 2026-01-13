@@ -53,4 +53,22 @@ enum FailureType {
         }
         return HEALTHY;
     }
+
+    public static SeverityType resolveSeverity(int label) {
+        if (label == 0) {
+            return SeverityType.GOOD;
+        }
+
+        // Szukamy, czy to kod typu 'caution' czy 'failure'
+        for (FailureType type : values()) {
+            if (type.cautionLabel == label) {
+                return SeverityType.CAUTION;
+            }
+            if (type.failureLabel == label) {
+                return SeverityType.FAILURE;
+            }
+        }
+
+        return SeverityType.NONE;
+    }
 }
