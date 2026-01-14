@@ -1,5 +1,6 @@
 package pl.zimnya.wind_turbine_maintenance.turbine.domain;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,7 @@ public interface MeasurementRepository extends JpaRepository<Measurement, Long>,
         WHERE sub.rn = 1
         """, nativeQuery = true)
     List<Measurement> findLatestForTurbines(@Param("turbineIds") List<Long> turbineIds);
+
+    @Query("SELECT m FROM Measurement m JOIN FETCH m.turbine WHERE m.turbine.productId = :productId ORDER BY m.timestamp DESC")
+    List<Measurement> findLatestRecords(@Param("productId") String productId, Pageable pageable);
 }

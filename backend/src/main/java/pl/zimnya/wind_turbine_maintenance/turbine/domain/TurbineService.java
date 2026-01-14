@@ -9,6 +9,7 @@ import pl.zimnya.wind_turbine_maintenance.common.PageDto;
 import pl.zimnya.wind_turbine_maintenance.common.PageableRequest;
 import pl.zimnya.wind_turbine_maintenance.common.PageableUtils;
 import pl.zimnya.wind_turbine_maintenance.common.exception.AlreadyExistException;
+import pl.zimnya.wind_turbine_maintenance.common.exception.ErrorMessages;
 import pl.zimnya.wind_turbine_maintenance.common.exception.NotFoundException;
 import pl.zimnya.wind_turbine_maintenance.common.validation.DtoValidator;
 import pl.zimnya.wind_turbine_maintenance.turbine.TurbineFacade;
@@ -139,6 +140,22 @@ class TurbineService implements TurbineFacade {
         return turbineRepository.count();
     }
 
+    @Override
+    @Transactional
+    public void resetToolWear(final String productId) {
+        Turbine turbine = turbineRepository.getTurbineByProductId(productId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessages.TURBINE_NOT_FOUND, productId));
+
+        turbine.setCurrentToolWear(0);
+
+        turbine.setMainSeverity(SeverityType.GOOD);
+        turbine.setCurrentFailureLabel(FailureType.HEALTHY);
+        turbine.setDescription(FailureType.resolveDescription(FailureType.HEALTHY.getFailureLabel()));
+        turbine.setLastUpdate(LocalDateTime.now());
+
+        turbineRepository.save(turbine);
+    }
+
     private TurbineView mapToView(final Turbine turbine) {
         return new TurbineView(
                 turbine.getId(),
@@ -172,7 +189,7 @@ class TurbineService implements TurbineFacade {
         }
     }
 
-    public Turbine createTurbine(final String productId, final String city, final Double lat, final Double lng, final TurbineSettings settings) {
+    private Turbine createTurbine(final String productId, final String city, final Double lat, final Double lng, final TurbineSettings settings) {
         LocalDateTime now = LocalDateTime.now();
         return Turbine.builder()
                 .productId(productId)

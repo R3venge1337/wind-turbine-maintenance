@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.zimnya.wind_turbine_maintenance.turbine.dto.GlobalWeatherDto;
-import pl.zimnya.wind_turbine_maintenance.turbine.dto.MeasurementDto;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,25 +26,5 @@ class PhysicsContext {
 
     public double getLastProcessTemp() {
         return (lastState != null) ? lastState.getOperational().getProcessTempCelsius() : globalWeather.globalAirTemp();
-    }
-
-    public MeasurementDto toDto() {
-        return new MeasurementDto(
-                turbine.getId(),
-                turbine.getProductId(),
-                turbine.getSettings().getCode().name(),
-                LocalDateTime.now(),
-                localWind,
-                localTempAir,
-                rpm,
-                torque,
-                powerGenerated,
-                powerGenerated * 0.95, // Przykład powerNetto
-                processTemp,
-                turbine.getCurrentToolWear(),
-                deIcingActive,
-                severity.name(),
-                targetLabel
-        );
     }
 }

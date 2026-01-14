@@ -1,0 +1,498 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+:host ::ng-deep .leaflet-top.leaflet-left {
+  margin-top: 70px !important;
+}
+
+/* GŁÓWNY KONTENER UKŁADU */
+.map-page-layout {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px); /* Wysokość ekranu minus header */
+  display: flex;
+  overflow: hidden;
+
+  .map-controls-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1100;
+  display: flex;
+  gap: 12px; // Odstęp między przyciskami
+
+  .control-btn {
+    background: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+
+    span {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    &:hover {
+      background: #f8fafc;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Wyróżnienie przycisku Dodaj */
+  .add-btn {
+    color: #059669; // Zielony kolor dla akcji pozytywnej
+    &:hover {
+      background: #ecfdf5;
+      color: #10b981;
+    }
+  }
+
+  .filter-btn {
+    &:hover {
+      color: #38bdf8;
+    }
+  }
+}
+
+  /* SIDEBAR - Pływający z animacją */
+  .sidebar-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    width: 340px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    /* ANIMACJA WYSUWANIA */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+    transform: translateX(0);
+    opacity: 1;
+
+    &.hidden {
+      transform: translateX(-380px); // Chowa się całkowicie poza lewą krawędź
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .sidebar-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1e293b;
+        margin: 0;
+      }
+
+      .close-sidebar-btn {
+        background: #f1f5f9;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #64748b;
+        font-size: 14px;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #fee2e2;
+          color: #ef4444;
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  
+
+  /* TREŚĆ WEWNĄTRZ SIDEBARU */
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+    overflow: hidden;
+  }
+
+  /* FORMULARZ FILTRÓW */
+  .filters-container {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+
+      .filter-input, .filter-select {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 13px;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: #38bdf8;
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+      }
+
+      .range-inputs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .small { width: 45%; }
+        .range-divider { color: #94a3b8; }
+      }
+    }
+  }
+
+  /* PRZYCISKI FORMULARZA */
+  .button-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+
+    button {
+      flex: 1;
+      padding: 9px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .apply-btn {
+      background: #38bdf8;
+      color: white;
+      border: none;
+      &:hover { background: #0ea5e9; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
+    }
+
+    .reset-btn {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      &:hover { background: #e2e8f0; }
+    }
+  }
+
+  /* LISTA TURBIN */
+  .turbine-list-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: 15px;
+
+    .results-info {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      strong { color: #38bdf8; }
+    }
+  }
+
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  }
+
+  /* KARTA TURBINY */
+  .turbine-card {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: #38bdf8;
+      background: #f0f9ff;
+      transform: translateX(4px);
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 12px;
+      background: #cbd5e1;
+
+      &.true { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.6); }
+      &.false { background: #ef4444; }
+    }
+
+    .card-content {
+      flex: 1;
+      .id { display: block; font-weight: 700; font-size: 13px; color: #1e293b; }
+      .city { font-size: 11px; color: #64748b; }
+    }
+
+    .wear-info {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  /* PAGINACJA */
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 0 5px 0;
+    margin-top: auto;
+    border-top: 1px solid #f1f5f9;
+
+    .page-nav-btn {
+      background: transparent;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      color: #64748b;
+      &:disabled { opacity: 0.3; cursor: not-allowed; }
+      &:hover:not(:disabled) { border-color: #38bdf8; color: #38bdf8; }
+    }
+
+    .page-numbers {
+      display: flex;
+      gap: 4px;
+
+      .page-num {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        &.active {
+          background: #38bdf8;
+          border-color: #38bdf8;
+          color: white;
+        }
+      }
+    }
+  }
+
+  /* MAPA */
+  .map-wrapper {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.weather-toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1100; // Musi być wyższy niż z-index mapy (Leaflet ma zwykle ok. 400-1000)
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  padding: 12px 20px;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+    color: #0ea5e9;
+  }
+
+  span {
+    font-size: 1.2rem;
+  }
+}
+
+::ng-deep {
+  /* To sprawi, że kontener ikony nie będzie blokował wyglądu */
+  .turbine-cluster-container {
+    background: none !important;
+    border: none !important;
+  }
+
+  .cluster-inner {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border: 2px solid white !important;
+  }
+
+  /* Przykładowe kolory */
+  .cluster-small { background-color: #3498db !important; }
+  .cluster-medium { background-color: #f1c40f !important; }
+  .cluster-large { background-color: #e74c3c !important; }
+}
+
+.floating-panel-fixed {
+  position: fixed;
+  top: 80px;      // Odstęp od góry (pod navbarem)
+  right: 20px;    // Odstęp od prawej
+  width: 340px;
+  background: white;
+  z-index: 2000;  // Bardzo wysoki indeks, nad wszystkim
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  animation: slideInRight 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    &:hover { background: #e0e0e0; color: #ff4d4d; }
+  }
+
+  .panel-header {
+    margin-bottom: 15px;
+    h3 { margin: 0; font-size: 1.1rem; color: #333; }
+    .id-badge {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 2px 8px;
+      background: #eef2f7;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      color: #555;
+    }
+  }
+
+  .panel-content {
+    max-height: 80vh;
+    overflow-y: auto; // Na wypadek gdyby karta była długa
+  }
+}
+
+@keyframes slideIn {
+  from { 
+    transform: translateX(50px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes map-pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.custom-turbine-icon {
+  // Zapewniamy, że SVG nie jest ucinane
+  overflow: visible !important;
+    background: none;
+  border: none;
+}
+
+/* Delikatne pulsowanie tylko dla anomalii - opcjonalnie */
+.anomaly-pulse {
+  filter: drop-shadow(0 0 5px #ff1a1a);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

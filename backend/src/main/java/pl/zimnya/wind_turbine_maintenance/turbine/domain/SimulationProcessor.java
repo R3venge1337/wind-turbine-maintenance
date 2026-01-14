@@ -7,7 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import pl.zimnya.wind_turbine_maintenance.turbine.dto.GlobalWeatherDto;
-import pl.zimnya.wind_turbine_maintenance.turbine.dto.MeasurementDto;
+import pl.zimnya.wind_turbine_maintenance.turbine.dto.SparkFeaturesDto;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Slf4j
 class SimulationProcessor {
-    private final KafkaTemplate<String, MeasurementDto> kafkaTemplate;
+    private final KafkaTemplate<String, SparkFeaturesDto> kafkaTemplate;
     private final MeasurementRepository measurementRepository;
     private final PhysicsEngine physicsEngine;
     private final TargetLabeler targetLabeler;
@@ -41,10 +41,15 @@ class SimulationProcessor {
                     .timestamp(LocalDateTime.now())
                     .build();
 
-            measurementRepository.save(measurement);
+            Measurement mEntity = measurementRepository.save(measurement);
+
+            SparkFeaturesDto sparkContext = new SparkFeaturesDto(
+                    turbine.getId(), turbine.getProductId(), mEntity.getId(), turbine.getSettings().getCode().name(), ctx.getLocalWind(), ctx.getLocalTempAir(), ctx.getProcessTemp(), ctx.getRpm(), ctx.getPowerGenerated(), ctx.getTorque(), turbine.getCurrentToolWear(), mEntity.getTimestamp()
+            );
+
             // 3. Wysyłka na Kafkę (surowe dane dla PySparka / Frontendu)
             // Używamy productId jako klucza, aby dane z tej samej turbiny trafiały do tej samej partycji
-            kafkaTemplate.send(topicName, turbine.getProductId(), ctx.toDto());
+            kafkaTemplate.send(topicName, turbine.getProductId(), sparkContext);
 
             log.debug("Measurement sent to Kafka and DB for turbine: {}", turbine.getProductId());
 

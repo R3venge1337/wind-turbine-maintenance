@@ -1,0 +1,297 @@
+.turbine-card {
+  width: 330px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-left: 6px solid #cbd5e0; 
+  transition: all 0.2s ease-in-out;
+
+  // Definicje kolorów dla poszczególnych statusów
+  &.status-good { 
+    --status-color: #22c55e; 
+    border-left-color: var(--status-color);
+    .severity-badge { background: #dcfce7; color: --status-color; }
+  }
+  
+  &.status-caution { 
+    --status-color: #f59e0b; 
+    border-left-color: var(--status-color);
+    .severity-badge { background: #fef3c7; color: --status-color }
+    
+  }
+  
+  &.status-failure { 
+    --status-color: #ef4444; 
+    border-left-color: var(--status-color);
+    .severity-badge { background: #fee2e2; color: --status-color }
+  }
+
+  &.anomaly { 
+    animation: pulse-border 2s infinite; 
+    border-color: var(--status-color);
+  }
+}
+
+// Header
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+
+  .header-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #cbd5e0;
+      &.active { 
+        background: #22c55e;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      }
+    }
+
+    .id-wrapper {
+      display: flex;
+      flex-direction: column;
+      .product-id { font-size: 0.9rem; font-weight: 800; color: #1e293b; line-height: 1; }
+      .city-tag { font-size: 0.65rem; color: #94a3b8; font-weight: 600; margin-top: 2px; }
+    }
+  }
+
+  .severity-badge {
+    font-size: 0.65rem;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+}
+
+// Zakładki
+.card-tabs {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  margin: 12px 16px; // Dodany margines pionowy dla oddechu
+  border-radius: 8px;
+  gap: 4px;
+
+  button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #64748b;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+
+    &.active {
+      background: white;
+      color: #2563eb;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+  }
+}
+
+// Kontenery danych
+.card-body {
+  padding: 0 16px 16px; // Spójne odstępy
+}
+
+.metrics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.main-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  .m-item {
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    
+    .m-label { font-size: 0.6rem; color: #64748b; font-weight: 800; }
+    .m-val { 
+      display: block; font-size: 1.1rem; font-weight: 800; color: #1e293b;
+      small { font-size: 0.65rem; font-weight: 600; color: #94a3b8; }
+    }
+  }
+}
+
+.secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 8px;
+
+  .s-item {
+    .s-label { font-size: 0.5rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;  margin:5px;}
+    .s-val { 
+      font-size: 0.75rem; font-weight: 700; color: #475569; 
+      white-space: nowrap;
+      small { font-size: 0.55rem; color: #94a3b8; }
+    }
+  }
+}
+
+// AI Box
+.ai-box {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+
+  &.anomaly-bg {
+    background: #fff5f5;
+    border-color: #feb2b2;
+    .stat-pill { background: rgba(255, 255, 255, 0.5); }
+  }
+
+  .ai-header-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    .ai-badge {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.65rem; font-weight: 800; color: #64748b;
+      svg { color: #3b82f6; }
+    }
+    .anomaly-tag {
+      background: #ef4444; color: white; font-size: 0.55rem;
+      padding: 2px 6px; border-radius: 4px; font-weight: 900;
+    }
+  }
+
+  .ai-msg { font-size: 0.8rem; color: #1e293b; margin: 8px 0; font-weight: 500; line-height: 1.4; }
+
+  .ai-footer-stats {
+    display: flex; gap: 8px;
+    .stat-pill {
+      flex: 1; padding: 6px; border-radius: 6px; background: white; border: 1px solid #f1f5f9;
+      .s-label { font-size: 0.5rem; color: #94a3b8; font-weight: 700; }
+      .s-value { font-size: 0.7rem; color: #334155; font-weight: 800; }
+    }
+  }
+}
+
+// Geo & Footer
+.geo-info {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .geo-label {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.6rem; font-weight: 800; color: #94a3b8;
+  }
+  .coords-wrapper {
+    font-family: monospace; font-size: 0.75rem; color: #64748b;
+    .separator { margin: 0 4px; color: #cbd5e0; }
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.65rem;
+  color: #94a3b8;
+  strong { color: #475569; }
+}
+
+.de-icing-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #bae6fd;
+  margin-top: 8px;
+  animation: pulse-blue 2s infinite;
+}
+
+// Animacje
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(var(--status-rgb, 203, 213, 224), 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(var(--status-rgb, 203, 213, 224), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--status-rgb, 203, 213, 224), 0); }
+}
+
+.fade-in { animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-footer-stats {
+  display: flex;
+  gap: 12px; // Większy odstęp między pigułkami
+  margin-top: 15px;
+
+  .stat-pill {
+    flex: 1;
+    display: flex;
+    flex-direction: row; // Układ poziomy zamiast pionowego zapobiega zlewaniu
+    align-items: center;
+    justify-content: space-between; // Rozpycha label i value na boki
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #f1f5f9;
+    gap: 10px; // Minimalny wymuszony odstęp, jeśli tekst będzie długi
+
+    .s-label {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      font-weight: 700;
+      white-space: nowrap; // Blokuje łamanie linii etykiety
+    }
+
+    .s-value {
+      font-size: 0.75rem;
+      color: #1e293b;
+      font-weight: 800;
+      // Kolorowanie wartości na podstawie statusu (opcjonalnie)
+      &.healthy { color: #22c55e; }
+    }
+  }
+}
+
+.ai-badge, .footer-item, .geo-label {
+  display: flex;
+  align-items: center;
+  gap: 8px; // Wymuszony odstęp między ikoną SVG a tekstem/spanem
+
+  svg {
+    flex-shrink: 0; // Gwarantuje, że ikona nie zostanie ściśnięta
+  }
+}

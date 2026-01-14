@@ -1,0 +1,36 @@
+<aside class="weather-panel" [class.open]="isVisible()">
+  <div class="panel-header">
+    <h3>{{ 'WEATHER_PANEL.TITLE' | translate }}</h3>
+    <button class="close-btn" (click)="toggleVisibility()">&#10005;</button>
+  </div>
+
+  <div class="panel-body">
+    <div class="control-group">
+      <div class="label-row">
+        <label>{{ 'WEATHER_PANEL.WIND_SPEED' | translate }}</label>
+        <span class="value">{{ windSpeed() | number:'1.0-2' }} km/h</span>
+      </div>
+      <input type="range" 
+             min="0" max="150" step="0.5" 
+             [value]="windSpeed()" 
+             (input)="onWindSpeedChange($event)">
+    </div>
+
+    <div class="control-group">
+      <div class="label-row">
+        <label>{{ 'WEATHER_PANEL.AIR_TEMP' | translate }}</label>
+        <span class="value" [style.color]="airTemp() > 30 ? '#ef4444' : '#0ea5e9'">
+          {{ airTemp() | number:'1.0-2' }}°C
+        </span>
+      </div>
+      <input type="range" 
+             min="-30" max="50" step="0.5" 
+             [value]="airTemp()" 
+             (input)="onAirTempChange($event)">
+    </div>
+
+    <button class="apply-weather-btn" (click)="onApply()">
+      {{ 'WEATHER_PANEL.APPLY_BTN' | translate }}
+    </button>
+  </div>
+</aside>

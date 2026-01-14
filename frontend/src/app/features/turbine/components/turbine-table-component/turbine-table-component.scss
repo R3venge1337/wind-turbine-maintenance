@@ -1,0 +1,100 @@
+.table-wrapper {
+  padding: 1rem;
+  background: #fdfdfd;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+  th {
+    background: #f8fafc;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    font-size: 0.85rem;
+  }
+
+  .status-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      &[data-severity="GOOD"] { background: #22c55e; }
+      &[data-severity="CAUTION"] { background: #f59e0b; }
+      &[data-severity="FAILURE"] { background: #ef4444; }
+    }
+    .status-meta {
+      display: flex;
+      flex-direction: column;
+      .label { font-weight: 600; font-size: 0.8rem; }
+      small { color: #64748b; font-size: 0.7rem; line-height: 1; margin-top: 2px; }
+    }
+  }
+
+  .product-id-tag {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.8rem;
+  }
+
+  .coords-cell code {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    color: #94a3b8;
+    font-size: 0.75rem;
+  }
+
+  .numeric-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+    &.wear-cell { font-weight: 700; color: #0f172a; }
+    small { font-weight: 400; color: #94a3b8; margin-left: 2px; }
+  }
+
+  .timestamp-cell {
+    font-size: 0.75rem;
+    span { display: block; color: #94a3b8; }
+    strong { color: #1e293b; }
+  }
+
+  .btn-details {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover { background: #334155; }
+  }
+
+  .inactive { opacity: 0.6; background: #f8fafc; }
+}

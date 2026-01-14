@@ -1,0 +1,49 @@
+.table-view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; // Odstęp między filtrami a tabelą
+  padding-bottom: 2rem;
+}
+
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-top: 1rem;
+
+  .info {
+    font-size: 0.9rem;
+    color: #64748b;
+    strong { color: #1e293b; }
+  }
+
+  .btns {
+    display: flex;
+    gap: 0.5rem;
+
+    .nav-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #cbd5e1;
+      background: white;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) {
+        background: #f8fafc;
+        border-color: #94a3b8;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

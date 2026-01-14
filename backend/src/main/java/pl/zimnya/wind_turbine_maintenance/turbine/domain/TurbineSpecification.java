@@ -34,10 +34,14 @@ class TurbineSpecification implements Specification<Turbine> {
             addEqualPredicate(builder, predicates, settingsJoin.get(TurbineSettings.Fields.code), filterForm.typeCode());
         }
 
+        if(filterForm.severity() != null && !filterForm.severity().isEmpty()){
+            addEqualPredicate(builder,predicates,root.get(Turbine.Fields.mainSeverity),filterForm.severity());
+        }
+
         PredicateUtils.addIntegerRangePredicate(
                 builder,
                 predicates,
-                root.get("currentToolWear"),
+                root.get(Turbine.Fields.currentToolWear),
                 filterForm.minToolWear(),
                 filterForm.maxToolWear()
         );

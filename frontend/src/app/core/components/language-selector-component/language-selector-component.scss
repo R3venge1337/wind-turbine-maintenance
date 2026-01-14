@@ -1,0 +1,13 @@
+.lang-container {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      gap: 5px;
+
+      span:hover { color: #38bdf8; }
+      .selected { color: #38bdf8; text-decoration: underline; }
+      .sep { cursor: default; color: #334155; }
+}

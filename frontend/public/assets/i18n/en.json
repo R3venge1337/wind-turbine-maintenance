@@ -1,0 +1,209 @@
+{
+ "NAV": {
+    "MAP": "Farm Map",
+    "TURBINES": "Turbines"
+  },
+  "WEATHER": {
+    "OUTSIDE_TEMP": "OUTSIDE TEMP.",
+    "GLOBAL_WIND": "GLOBAL WIND"
+  },
+  "APP": {
+    "TITLE": "Wind Turbine Dashboard",
+    "LOGO_ALT": "WindPrediction AI Logo"
+  },
+  "exception": {
+    "turbine": {
+      "not_found": "Turbine with the given ID was not found.",
+      "settings": {
+        "not_found": "Turbine settings not found."
+      },
+      "product_id": {
+        "exist": "A turbine with this product ID already exists.",
+        "not_empty": "Turbine product ID cannot be empty.",
+        "size_exceed": "Invalid length for turbine product ID."
+      },
+      "type_code_required": "Turbine type code is required.",
+      "type_code_pattern": "Invalid turbine type code format.",
+      "latitude_required": "Latitude is required.",
+      "latitude_min": "Latitude must be greater than -90.",
+      "latitude_max": "Latitude must be less than 90.",
+      "longitude_required": "Longitude is required.",
+      "longitude_min": "Longitude must be greater than -180.",
+      "longitude_max": "Longitude must be less than 180.",
+      "city_size": "City name length is invalid.",
+      "current_tool_wear_min": "Current tool wear cannot be negative."
+    },
+    "weather": {
+      "wind_speed": {
+        "not_empty": "Wind speed cannot be empty.",
+        "min": "Wind speed cannot be negative.",
+        "max": "Wind speed exceeds the measurable range."
+      },
+      "air_temp": {
+        "not_empty": "Air temperature is required.",
+        "min": "Temperature is below device technical limit.",
+        "max": "Temperature exceeds device operational limit."
+      }
+    },
+    "measurement": {
+      "not_found": "Measurement data not found."
+    }
+  },
+  "FOOTER": {
+    "DEVELOPED_BY": "Developed by:",
+    "PYSPARK_STATUS": "PySpark Engine: Online",
+    "LIVE_STREAM": "Live Stream:",
+    "STATUS_ACTIVE": "Active",
+    "STATUS_DISCONNECTED": "Disconnected",
+    "BUILD": "Build"
+  },
+  "MODAL": {
+    "ADD_TITLE": "Add New Turbine",
+    "ADD_SUBTITLE": "Enter data manually or pick a location from the map.",
+    "PRODUCT_ID": "Product ID",
+    "CITY": "City / Location",
+    "MODEL_TYPE": "Model Type",
+    "COORDINATES": "Geographic Coordinates",
+    "LATITUDE": "Latitude",
+    "LONGITUDE": "Longitude",
+    "PICK_FROM_MAP": "Pick point on map",
+    "CANCEL": "Cancel",
+    "SAVE": "Add to System",
+    "PLACEHOLDERS": {
+      "PRODUCT_ID": "e.g. TURB-99",
+      "CITY": "e.g. Gdansk"
+    },
+    "TYPE_OPTIONS": {
+      "LOW": "Type L (LOW)",
+      "MEDIUM": "Type M (Medium)",
+      "HIGH": "Type H (High)"
+    }
+  },
+  "DETAILS": {
+    "BACK_TO_LIST": "← Turbine List",
+    "TURBINE_TITLE": "Turbine:",
+    "LOCATION": "Location",
+    "SPECIFICATION": "Specification",
+    "RATED_POWER": "Rated Power:",
+    "TOOL_STATUS": "Tool Condition (Real Load)",
+    "RESETTING": "RESETTING...",
+    "RESET": "RESET",
+    "BASE": "Base",
+    "TORQUE": "Torque",
+    "TELEMETRY_TITLE": "Detailed Telemetry",
+    "TELEMETRY_DESC": "Last 10 readings from turbine sensors",
+    "TABLE": {
+      "TIME": "Time",
+      "WIND": "Wind",
+      "AIR_TEMP": "Air Temp.",
+      "RPM": "RPM",
+      "TORQUE": "Torque",
+      "POWER_GEN": "Gen. Power",
+      "POWER_NET": "Net Power",
+      "PROC_TEMP": "Proc. Temp.",
+      "WEAR": "Wear",
+      "DEICING": "De-Icing",
+      "SENSOR_LABEL": "Sensor Label",
+      "AI_LABEL": "AI Label"
+    }
+  },
+  "LIST": {
+    "TABLE": {
+      "STATUS": "Status",
+      "CITY": "City",
+      "NAME": "Turbine Name",
+      "TYPE": "Type",
+      "COORDS": "Coordinates",
+      "OSF_LIMIT": "OSF Limit",
+      "DEICING_COST": "De-icing Cost",
+      "RATED_POWER": "Rated Power",
+      "CURRENT_WEAR": "Current Wear",
+      "LAST_UPDATE": "Last Update",
+      "ACTIONS": "Actions"
+    },
+    "ACTIONS": {
+      "DETAILS": "DETAILS"
+    },
+    "EMPTY": "No turbines to display."
+  },
+  "TURBINE": {
+    "HEALTHY": "Good",
+    "CAUTION": "Caution",
+    "FAILURE": "Failure",
+    "OFFLINE": "Offline"
+  },
+  "FILTERS": {
+    "PRODUCT_ID": "Product ID",
+    "TYPE": "Type (L, M, H)",
+    "STATUS": "Status",
+    "CITY": "City",
+    "WEAR_RANGE": "Wear (Min - Max)",
+    "ALL_TYPES": "All types",
+    "ALL_STATUSES": "All statuses",
+    "APPLY": "Filter",
+    "RESET": "Reset",
+    "PLACEHOLDERS": {
+      "CITY": "Location",
+      "MIN": "Min",
+      "MAX": "Max"
+    }
+  },
+  "COMMON": {
+    "LOADING_DATA": "Fetching diagnostic data...",
+    "NOT_FOUND": "Turbine with the given ID was not found.",
+    "BACK_TO_LIST": "Back to list"
+  },
+  "PAGINATION": {
+    "INFO": "Showing page",
+    "OF": "of",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next"
+  },
+  "CARD": {
+    "TABS": {
+      "AI_ANALYSIS": "AI ANALYSIS",
+      "LIVE_MEASUREMENTS": "LIVE MEASUREMENTS"
+    },
+    "AI": {
+      "PREDICTION": "AI PREDICTION",
+      "ANOMALY": "ANOMALY",
+      "ENGINE": "AI ENGINE",
+      "THRESHOLDS": "THRESHOLDS",
+      "DEFAULT_OK": "Everything is fine"
+    },
+    "METRICS": {
+      "NET_POWER": "NET POWER",
+      "RPM": "RPM",
+      "WIND": "WIND",
+      "TORQUE": "TORQUE",
+      "WEAR": "WEAR",
+      "AIR_TEMP": "AIR TEMP.",
+      "PROC_TEMP": "PROC. TEMP.",
+      "GEN_POWER": "GEN. POWER",
+      "DEICING": "DE-ICING IN PROGRESS"
+    },
+    "FOOTER": {
+      "COORDINATES": "COORDINATES",
+      "MEASUREMENT": "MEASUREMENT"
+    }
+  },
+  "WEATHER_PANEL": {
+    "TITLE": "Environment",
+    "WIND_SPEED": "Wind Speed",
+    "AIR_TEMP": "Air Temperature",
+    "APPLY_BTN": "Update Conditions"
+  },
+  "MAP": {
+    "CONTROLS": {
+      "FILTERS": "Filters",
+      "ADD_TURBINE": "Add Turbine",
+      "WEATHER": "Weather"
+    },
+    "SIDEBAR": {
+      "TITLE": "Farm Filters",
+      "SEARCH": "Search",
+      "RESULTS": "Results",
+      "NO_RESULTS": "No turbines match criteria."
+    }
+  }
+}

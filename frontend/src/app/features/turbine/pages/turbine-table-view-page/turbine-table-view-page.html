@@ -1,0 +1,24 @@
+<div class="table-view-content">
+  <app-turbine-table-filter-component (filterChanged)="onFilter($event)" />
+
+  <app-turbine-table-component
+    [turbines]="turbines()" 
+    (resetRequest)="handleReset($event)" />
+
+  <div class="pagination-bar">
+    <div class="info">
+      {{ 'PAGINATION.INFO' | translate }} 
+      <strong>{{ currentPage() + 1 }}</strong> 
+      {{ 'PAGINATION.OF' | translate }} {{ totalPages() }}
+    </div>
+    
+    <div class="btns">
+      <button class="nav-btn" (click)="changePage(-1)" [disabled]="currentPage() === 0">
+        ← {{ 'PAGINATION.PREVIOUS' | translate }}
+      </button>
+      <button class="nav-btn" (click)="changePage(1)" [disabled]="currentPage() >= totalPages() - 1">
+        {{ 'PAGINATION.NEXT' | translate }} →
+      </button>
+    </div>
+  </div>
+</div>

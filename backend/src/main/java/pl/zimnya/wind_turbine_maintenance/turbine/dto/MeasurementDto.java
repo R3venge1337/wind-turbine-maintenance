@@ -3,6 +3,7 @@ package pl.zimnya.wind_turbine_maintenance.turbine.dto;
 import java.time.LocalDateTime;
 
 public record MeasurementDto(
+        Long measurementId,
         Long turbineId,
         String productId,
         String turbineType,
@@ -21,5 +22,6 @@ public record MeasurementDto(
         // Flagi diagnostyczne (używamy boolean)
         boolean deIcingActive,
         String severity,
-        int targetLabel
+        String targetLabel,
+        String predictionAI
 ) {}

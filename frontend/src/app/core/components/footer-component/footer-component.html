@@ -1,0 +1,29 @@
+<footer class="main-footer">
+  <div class="footer-section author-info">
+    <span class="label">{{ 'FOOTER.DEVELOPED_BY' | translate }}</span>
+    <span class="value font-semibold">Adam Zimny</span>
+    <span class="divider">|</span>
+    <span class="year">© 2026</span>
+  </div>
+
+  <div class="footer-section system-status">
+    <div class="status-item">
+      <span class="status-dot green"></span>
+      <span>{{ 'FOOTER.PYSPARK_STATUS' | translate }}</span>
+    </div>
+    <div class="status-item">
+      <span class="status-dot" [class.green]="wsConnected()" [class.red]="!wsConnected()"></span>
+      <span>
+        {{ 'FOOTER.LIVE_STREAM' | translate }} 
+        {{ (wsConnected() ? 'FOOTER.STATUS_ACTIVE' : 'FOOTER.STATUS_DISCONNECTED') | translate }}
+      </span>
+    </div>
+  </div>
+
+  <div class="footer-section meta-info">
+    <span class="tag">{{ 'FOOTER.BUILD' | translate }}: v1.0.4-beta</span>
+    <a href="https://github.com/R3venge1337" target="_blank" class="github-link">
+        GitHub
+    </a>
+  </div>
+</footer>

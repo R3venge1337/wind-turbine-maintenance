@@ -26,6 +26,8 @@ public class ErrorMessages {
     public static final String WEATHER_AIR_TEMP_MIN = "exception.weather.air_temp.min";
     public static final String WEATHER_AIR_TEMP_MAX = "exception.weather.air_temp.max";
 
+    public static final String MEASUREMENT_NOT_FOUND = "exception.measurement.not_found";
+
     private ErrorMessages(){
 
     }

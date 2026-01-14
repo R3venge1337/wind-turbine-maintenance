@@ -59,3 +59,21 @@ spring:
             trusted:
               packages: "*"
     topic-name: wind-measurements
+    consumer:
+      group-id: alert-frontend-group
+      auto-offset-reset: latest
+      # Klasy deserializatorów
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            value:
+              default:
+                type: "pl.zimnya.wind_turbine_maintenance.turbine.dto.PredictionResultDto"
+          deserializer:
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer

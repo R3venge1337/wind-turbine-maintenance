@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,5 +68,11 @@ class TurbineController {
     ResponseEntity<Void> delete(@PathVariable final String productId) {
         turbineFacade.deleteTurbine(productId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(RoutePaths.TURBINE + "/{productId}/reset-maintenance")
+    public ResponseEntity<Void> resetMaintenance(@PathVariable final String productId) {
+        turbineFacade.resetToolWear(productId);
+        return ResponseEntity.ok().build();
     }
 }
