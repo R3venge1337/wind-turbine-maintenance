@@ -1,0 +1,132 @@
+.main-header {
+    height: 60px;
+    background: #1e293b; /* Ciemny granat/slate - pasuje do wzorca */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1100;
+}
+
+/* LOGO SECTION */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+}
+
+.logo img {
+    height: 32px;
+}
+
+.logo strong {
+    color: #38bdf8; /* Jasnoniebieski akcent na AI */
+}
+
+/* NAVIGATION */
+.main-nav {
+    display: flex;
+    gap: 8px;
+    height: 100%;
+}
+
+.main-nav a {
+    color: #94a3b8; /* Szary tekst dla nieaktywnych */
+    text-decoration: none;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent; /* Rezerwacja miejsca na border */
+}
+
+.main-nav a:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Styl dla aktywnego linku (Angular go doda automatycznie) */
+.main-nav a.active {
+    color: #38bdf8;
+    border-bottom: 3px solid #38bdf8;
+    background: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.1));
+}
+
+/* USER STATUS */
+.user-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.username {
+    font-size: 0.85rem;
+    color: #e2e8f0;
+}
+
+/* Opcjonalny mały kółek-avatar, skoro nie ma autentykacji */
+.user-status::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: #64748b;
+    border-radius: 50%;
+    display: block;
+}
+
+.global-weather {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .weather-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      color: #60a5fa; // Jasnoniebieski
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        font-size: 0.55rem;
+        font-weight: 800;
+        color: #94a3b8;
+        letter-spacing: 0.5px;
+      }
+
+      .value {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+      }
+    }
+  }
+
+  .weather-separator {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 20px;
+  }
+}

@@ -1,0 +1,37 @@
+<header class="main-header">
+  <div class="logo">
+    <img src="assets/logo.png" [alt]="'APP.LOGO_ALT' | translate" />
+    <span>WindSense <strong>AI</strong></span>
+  </div>
+
+  <nav class="main-nav">
+    <a routerLink="/map" routerLinkActive="active">{{ 'NAV.MAP' | translate }}</a>
+    <a routerLink="/turbines" routerLinkActive="active">{{ 'NAV.TURBINES' | translate }}</a>
+  </nav>
+
+  <div class="global-weather">
+    <div class="weather-item">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m12.72-12.72l-1.41 1.41M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" />
+      </svg>
+      <div class="info">
+        <span class="label">{{ 'WEATHER.OUTSIDE_TEMP' | translate }}</span>
+        <span class="value">{{ globalTemp() | number:'1.0-2' }}°C</span>
+      </div>
+    </div>
+
+    <div class="weather-separator"></div>
+
+    <div class="weather-item">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" />
+      </svg>
+      <div class="info">
+        <span class="label">{{ 'WEATHER.GLOBAL_WIND' | translate }}</span>
+        <span class="value">{{ globalWind() | number:'1.0-2'}} km/h</span>
+      </div>
+    </div>
+  </div>
+  
+  <app-language-selector-component></app-language-selector-component>
+</header>
