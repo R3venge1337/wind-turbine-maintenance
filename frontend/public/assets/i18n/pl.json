@@ -1,0 +1,209 @@
+{
+"NAV": {
+    "MAP": "Mapa Farmy",
+    "TURBINES": "Turbiny"
+  },
+  "WEATHER": {
+    "OUTSIDE_TEMP": "TEMP. ZEWN.",
+    "GLOBAL_WIND": "WIATR GLOBALNY"
+  },
+  "APP": {
+    "TITLE": "Panel Turbin Wiatrowych",
+    "LOGO_ALT": "Logo WindPrediction AI"
+  },
+  "exception": {
+    "turbine": {
+      "not_found": "Nie znaleziono turbiny o podanym identyfikatorze.",
+      "settings": {
+        "not_found": "Nie znaleziono ustawień dla tej turbiny."
+      },
+      "product_id": {
+        "exist": "Turbina z tym numerem seryjnym już istnieje w systemie.",
+        "not_empty": "Identyfikator turbiny nie może być pusty.",
+        "size_exceed": "Identyfikator turbiny ma nieprawidłową długość."
+      },
+      "type_code_required": "Kod typu turbiny jest wymagany.",
+      "type_code_pattern": "Nieprawidłowy format kodu typu turbiny.",
+      "latitude_required": "Szerokość geograficzna jest wymagana.",
+      "latitude_min": "Szerokość geograficzna musi być większa niż -90.",
+      "latitude_max": "Szerokość geograficzna musi być mniejsza niż 90.",
+      "longitude_required": "Długość geograficzna jest wymagana.",
+      "longitude_min": "Długość geograficzna musi być większa niż -180.",
+      "longitude_max": "Długość geograficzna musi być mniejsza niż 180.",
+      "city_size": "Nazwa miasta jest zbyt długa lub zbyt krótka.",
+      "current_tool_wear_min": "Zużycie narzędzia nie może być ujemne."
+    },
+    "weather": {
+      "wind_speed": {
+        "not_empty": "Prędkość wiatru musi zostać podana.",
+        "min": "Prędkość wiatru nie może być ujemna.",
+        "max": "Prędkość wiatru przekracza dopuszczalny zakres pomiarowy."
+      },
+      "air_temp": {
+        "not_empty": "Temperatura powietrza jest wymagana.",
+        "min": "Temperatura jest poniżej limitu technicznego urządzenia.",
+        "max": "Temperatura przekracza limit operacyjny urządzenia."
+      }
+    },
+    "measurement": {
+      "not_found": "Nie odnaleziono danych pomiarowych."
+    }
+  },
+  "FOOTER": {
+    "DEVELOPED_BY": "Autor:",
+    "PYSPARK_STATUS": "Silnik PySpark: Online",
+    "LIVE_STREAM": "Strumień danych:",
+    "STATUS_ACTIVE": "Aktywny",
+    "STATUS_DISCONNECTED": "Rozłączony",
+    "BUILD": "Wersja"
+  },
+  "MODAL": {
+    "ADD_TITLE": "Dodaj nową turbinę",
+    "ADD_SUBTITLE": "Wprowadź dane ręcznie lub wybierz lokalizację z mapy.",
+    "PRODUCT_ID": "Product ID",
+    "CITY": "Miasto / Lokalizacja",
+    "MODEL_TYPE": "Typ modelu",
+    "COORDINATES": "Współrzędne geograficzne",
+    "LATITUDE": "Szerokość (Lat)",
+    "LONGITUDE": "Długość (Lng)",
+    "PICK_FROM_MAP": "Wybierz punkt na mapie",
+    "CANCEL": "Anuluj",
+    "SAVE": "Dodaj do systemu",
+    "PLACEHOLDERS": {
+      "PRODUCT_ID": "np. TURB-99",
+      "CITY": "np. Gdańsk"
+    },
+    "TYPE_OPTIONS": {
+      "LOW": "Typ L (Low)",
+      "MEDIUM": "Typ M (Medium)",
+      "HIGH": "Typ H (High)"
+    }
+  },
+  "DETAILS": {
+    "BACK_TO_LIST": "← Lista turbin",
+    "TURBINE_TITLE": "Turbina:",
+    "LOCATION": "Lokalizacja",
+    "SPECIFICATION": "Specyfikacja",
+    "RATED_POWER": "Moc znamionowa:",
+    "TOOL_STATUS": "Stan Narzędzia (Realne Obciążenie)",
+    "RESETTING": "RESETOWANIE...",
+    "RESET": "RESET",
+    "BASE": "Baza",
+    "TORQUE": "Moment",
+    "TELEMETRY_TITLE": "Szczegółowa telemetria",
+    "TELEMETRY_DESC": "Ostatnie 10 odczytów z sensorów turbiny",
+    "TABLE": {
+      "TIME": "Czas",
+      "WIND": "Wiatr",
+      "AIR_TEMP": "Temp. Pow.",
+      "RPM": "RPM",
+      "TORQUE": "Moment",
+      "POWER_GEN": "Moc Gen.",
+      "POWER_NET": "Moc Netto",
+      "PROC_TEMP": "Temp. Proc.",
+      "WEAR": "Zużycie",
+      "DEICING": "Odmrażanie",
+      "SENSOR_LABEL": "Etykieta sensora",
+      "AI_LABEL": "Etykieta AI"
+    }
+  },
+  "LIST": {
+    "TABLE": {
+      "STATUS": "Status",
+      "CITY": "Miasto",
+      "NAME": "Nazwa turbiny",
+      "TYPE": "Typ",
+      "COORDS": "Współrzędne",
+      "OSF_LIMIT": "Limit OSF",
+      "DEICING_COST": "Koszt odmrażania",
+      "RATED_POWER": "Moc Znamionowa",
+      "CURRENT_WEAR": "Obecne zużycie",
+      "LAST_UPDATE": "Ostatnia Aktualizacja",
+      "ACTIONS": "Akcje"
+    },
+    "ACTIONS": {
+      "DETAILS": "SZCZEGÓŁY"
+    },
+    "EMPTY": "Brak turbin do wyświetlenia."
+  },
+  "TURBINE": {
+    "HEALTHY": "Sprawna",
+    "CAUTION": "Ostrzeżenie",
+    "FAILURE": "Awaria",
+    "OFFLINE": "Nieaktywna"
+  },
+  "FILTERS": {
+    "PRODUCT_ID": "ID Produktu",
+    "TYPE": "Typ (L, M, H)",
+    "STATUS": "Status",
+    "CITY": "Miasto",
+    "WEAR_RANGE": "Zużycie (Min - Max)",
+    "ALL_TYPES": "Wszystkie typy",
+    "ALL_STATUSES": "Wszystkie statusy",
+    "APPLY": "Filtruj",
+    "RESET": "Reset",
+    "PLACEHOLDERS": {
+      "CITY": "Lokalizacja",
+      "MIN": "Min",
+      "MAX": "Max"
+    }
+  },
+  "COMMON": {
+    "LOADING_DATA": "Pobieranie danych diagnostycznych...",
+    "NOT_FOUND": "Nie odnaleziono turbiny o podanym ID.",
+    "BACK_TO_LIST": "Wróć do listy"
+  },
+  "PAGINATION": {
+    "INFO": "Wyświetlanie strony",
+    "OF": "z",
+    "PREVIOUS": "Poprzednia",
+    "NEXT": "Następna"
+  },
+  "CARD": {
+    "TABS": {
+      "AI_ANALYSIS": "ANALIZA AI",
+      "LIVE_MEASUREMENTS": "POMIARY LIVE"
+    },
+    "AI": {
+      "PREDICTION": "PREDYKCJA AI",
+      "ANOMALY": "ANOMALIA",
+      "ENGINE": "SILNIK AI",
+      "THRESHOLDS": "PROGI",
+      "DEFAULT_OK": "Wszystko jest w porządku"
+    },
+    "METRICS": {
+      "NET_POWER": "MOC NETTO",
+      "RPM": "OBROTY",
+      "WIND": "WIATR",
+      "TORQUE": "MOMENT",
+      "WEAR": "ZUŻYCIE",
+      "AIR_TEMP": "TEMP. POW.",
+      "PROC_TEMP": "TEMP. PROC.",
+      "GEN_POWER": "MOC GEN.",
+      "DEICING": "ODLADZANIE W TOKU"
+    },
+    "FOOTER": {
+      "COORDINATES": "KOORDYNATY",
+      "MEASUREMENT": "POMIAR"
+    }
+  },
+  "WEATHER_PANEL": {
+    "TITLE": "Środowisko",
+    "WIND_SPEED": "Prędkość wiatru",
+    "AIR_TEMP": "Temperatura powietrza",
+    "APPLY_BTN": "Aktualizuj warunki"
+  },
+  "MAP": {
+    "CONTROLS": {
+      "FILTERS": "Filtry",
+      "ADD_TURBINE": "Dodaj Turbinę",
+      "WEATHER": "Pogoda"
+    },
+    "SIDEBAR": {
+      "TITLE": "Filtry Farmy",
+      "SEARCH": "Szukaj",
+      "RESULTS": "Wyniki",
+      "NO_RESULTS": "Brak turbin spełniających kryteria."
+    }
+  }
+}
