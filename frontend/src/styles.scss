@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+@import "leaflet/dist/leaflet.css";
+@import "leaflet.markercluster/dist/MarkerCluster.css";
+@import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+body {
+  .success-snackbar {
+    // Te zmienne kontrolują wygląd nowej wersji Angular Material (MDC)
+    --mdc-snackbar-container-color: #10b981 !important;
+    --mdc-snackbar-supporting-text-color: white !important;
+    --mat-snack-bar-button-color: white !important;
+    
+    // Dodatkowo wymuszamy brak przezroczystości
+    background-color: #10b981 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+
+    // Tekst wewnątrz
+    .mdc-snackbar__label {
+      color: white !important;
+      font-weight: 500 !important;
+    }
+
+    // Przycisk akcji
+    .mat-mdc-snack-bar-action {
+      color: white !important;
+      button {
+        color: white !important;
+      }
+    }
+  }
+}
+
+.turbine-popup-container {
+  .leaflet-popup-content-wrapper {
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .leaflet-popup-content {
+    margin: 0;
+    width: auto !important;
+  }
+
+  .leaflet-popup-tip-container {
+    /* Opcjonalnie: stylizacja strzałki pod popupem */
+  }
+}
