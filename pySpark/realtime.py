@@ -2,129 +2,111 @@ import os
 import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col, to_json, struct
-from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, ArrayType, LongType
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, LongType, ArrayType
 from pyspark.ml import PipelineModel
 
-# --- 1. KONFIGURACJA ŚRODOWISKA ---
 os.environ["HADOOP_HOME"] = r"D:\Biblioteki Programowanie\hadoop"
 os.environ["PATH"] += os.pathsep + r"D:\Biblioteki Programowanie\hadoop\bin"
 os.environ["JAVA_HOME"] = r"D:\Programy\JDK\openjdk-17.0.1_windows-x64_bin\jdk-17.0.1"
 os.environ['PYSPARK_PYTHON'] = sys.executable
 os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
-# Konfiguracja pakietów Kafka dla Sparka
+# KLUCZOWA ZMIANA: Dodajemy flagi do zmiennej środowiskowej sterownika
+jvm_flags = (
+    "-Djdk.security.allowGetSubjectCall=true "
+    "--add-opens=java.base/java.lang=ALL-UNNAMED "
+    "--add-opens=java.base/java.util=ALL-UNNAMED "
+    "--add-opens=java.base/sun.security.action=ALL-UNNAMED"
+)
 os.environ["PYSPARK_SUBMIT_ARGS"] = (
-    '--conf "spark.driver.extraJavaOptions=-Djdk.security.allowGetSubjectCall=true '
-    '--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED" '
+    f'--driver-java-options "{jvm_flags}" '
     '--packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.0 '
     'pyspark-shell'
 )
 
-# --- 2. SCHEMAT DANYCH # Dostosowany schemat do Twojego SparkFeaturesDto---
-
+# Schemat zgodny z Twoim Java DTO (Spring Boot)
 java_dto_schema = StructType([
-    StructField("turbineId", LongType()),      # Long w Javie -> LongType
-    StructField("productId", StringType()),    # String -> StringType
-    StructField("measurementId", LongType()),  # Long -> LongType
-    StructField("turbineType", StringType()),  # String -> StringType
-    StructField("wind_kmh", DoubleType()),     # Double -> DoubleType
+    StructField("turbineId", LongType()),
+    StructField("productId", StringType()),
+    StructField("measurementId", LongType()),
+    StructField("turbineType", StringType()),
+    StructField("wind_kmh", DoubleType()),
     StructField("local_temp", DoubleType()),
     StructField("process_temp", DoubleType()),
-    StructField("rpm", IntegerType()),         # Integer w Javie -> IntegerType
+    StructField("rpm", IntegerType()),
     StructField("power", DoubleType()),
     StructField("torque", DoubleType()),
     StructField("tool_wear", IntegerType()),
-    StructField("timestamp", ArrayType(IntegerType())),
+    StructField("timestamp", ArrayType(IntegerType()))
 ])
 
-def start_wind_sense_ai():
-    # Inicjalizacja sesji Spark
+def run_windsense_kraft_stream():
     spark = SparkSession.builder \
-        .appName("WindSense-RealTime-AI") \
+        .appName("WindSense-KRaft-AI") \
         .master("local[*]") \
+        .config("spark.driver.extraJavaOptions", "-Djdk.security.allowGetSubjectCall=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/sun.security.action=ALL-UNNAMED") \
         .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-    print("--- System WindSense AI: Uruchomiono sesję Spark ---")
+    spark.sparkContext.setLogLevel("ERROR")
 
-    # --- 3. WCZYTYWANIE WYTRENOWANEGO MODELU ---
-    model_path = r"D:\Studia\Politechnika-Lodzka-2024\Semestr 3\Zaawansowane metody przetwarzania Big Data\Projekt\kod\pySpark\wind_turbine_model_v1"
-    print(f"Wczytywanie modelu z: {model_path}")
+    # 1. Wczytanie najlepszego modelu
+    model_path = "wind_turbine_best_model_optimized"
     model = PipelineModel.load(model_path)
+    print(f"[*] Model załadowany. System gotowy na dane z KRaft.")
 
-    # --- 4. ODCZYT STRUMIENIA Z KAFKI ---
-    raw_stream = spark.readStream \
+    # 2. Odczyt z Kafki (KRaft używa tego samego protokołu co klasyczna Kafka)
+    df_kafka = spark.readStream \
         .format("kafka") \
         .option("kafka.bootstrap.servers", "localhost:9092") \
         .option("subscribe", "wind-measurements") \
         .option("startingOffsets", "latest") \
+        .option("failOnDataLoss", "false") \
         .load()
 
-    # --- 5. PARSOWANIE JSON I PRZYGOTOWANIE CECH ---
-    parsed_df = raw_stream.selectExpr("CAST(value AS STRING)") \
+    # 3. Przetwarzanie JSON
+    df_parsed = df_kafka.selectExpr("CAST(value AS STRING)") \
         .select(from_json(col("value"), java_dto_schema).alias("data")) \
         .select("data.*")
 
-    # Przygotowujemy DataFrame dla modelu (PipelineModel sam obsłuży turbine_type -> type_index)
-    ml_ready_df = parsed_df.select(
+    # Przygotowanie do modelu (Rename kolumn)
+    df_ml = df_parsed.select(
         col("turbineType").alias("turbine_type"),
-        col("wind_kmh"),
-        col("local_temp"),
-        col("process_temp"),
-        col("rpm"),
-        col("power"),
-        col("torque"),
-        col("tool_wear"),
-        col("measurementId"),
-        col("turbineId"),
-        col("productId")
-    ).dropna()
-
-    # --- 6. PREDYKCJA ---
-    predictions = model.transform(ml_ready_df)
-
-    # --- 7. PRZYGOTOWANIE WYNIKÓW (Pełne do konsoli, lekkie do Kafki) ---
-    # Rzutujemy prediction na Integer i nazywamy zgodnie z ustaleniami: prediction_ai
-    results_df = predictions.select(
-        col("measurementId"),
-        col("turbineId"),
-        col("productId"),
-        col("prediction").cast("integer").alias("prediction_ai"),
-        col("rpm"),
-        col("process_temp"),
-        col("local_temp"),
-        col("wind_kmh"),
-        col("power"),
-        col("torque"),
-        col("tool_wear")
+        "wind_kmh", "local_temp", "process_temp", "rpm", "power", "torque", "tool_wear",
+        "measurementId", "turbineId"
     )
 
-    # --- 8. WYJŚCIE (SINK) ---
+    # 4. Predykcja AI (Inference)
+    predictions = model.transform(df_ml)
 
-    # A. Konsola (Debugowanie - pełny podgląd)
-    console_query = results_df.writeStream \
+    console_debug_query = predictions.filter(col("prediction") > 0) \
+        .select(
+        col("turbineId").alias("ID"),
+        col("measurementId").alias("M_ID"),
+        col("prediction").cast("integer").alias("AI_PRED"),
+        "rpm", "power", "local_temp"  # dodatkowe pola do podglądu
+    ) \
+        .writeStream \
         .outputMode("append") \
         .format("console") \
         .option("truncate", "false") \
         .start()
 
-    # B. Kafka (Wysyłamy tylko 4 kluczowe pola w formacie JSON)
-    kafka_query = results_df.select(
+    # 5. Wyjście alertów (do Spring Boota przez topik turbine-alerts)
+    query = predictions.select(
         to_json(struct(
-            "measurementId",
-            "turbineId",
-            "productId",
-            "prediction_ai"
+            col("measurementId"),
+            col("turbineId"),
+            col("prediction").cast("integer").alias("prediction_ai")
         )).alias("value")
     ).writeStream \
         .format("kafka") \
         .option("kafka.bootstrap.servers", "localhost:9092") \
         .option("topic", "turbine-alerts") \
-        .option("checkpointLocation", "checkpoint_final") \
+        .option("checkpointLocation", "checkpoints/kraft_ai") \
         .start()
 
-    print("--- System monitorowania działa. Nasłuchiwanie na topiku: 'wind-measurements' ---")
-    spark.streams.awaitAnyTermination()
+
+    query.awaitTermination()
 
 if __name__ == "__main__":
-    start_wind_sense_ai()
+    run_windsense_kraft_stream()
