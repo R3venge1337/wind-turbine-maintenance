@@ -1,0 +1,3 @@
+Model,Accuracy,F1-Score,Recall
+Bazowy,0.9499,0.9471,0.9499
+Zoptymalizowany,0.9501,0.947,0.9501
