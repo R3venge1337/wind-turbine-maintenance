@@ -14,7 +14,7 @@ def calculate_efficiency(wind_kmh):
     return 0.0
 
 
-def generate_turbine_data_v7(num_records=50000):
+def generate_turbine_data(num_records=100000):
     print(f"Generowanie {num_records} rekordów: Pełna synchronizacja z ProcessTempCalculator.java...")
 
     turbine_configs = [
@@ -35,7 +35,7 @@ def generate_turbine_data_v7(num_records=50000):
         config = turbine_configs[i % len(turbine_configs)]
         state = turbine_states[config['id']]
 
-        timestamp = (start_time + timedelta(minutes=i * 10)).strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = (start_time + timedelta(seconds=i * 10)).strftime("%Y-%m-%d %H:%M:%S")
         local_wind_kmh = np.random.triangular(0, 25, 150)
         local_temp_air = np.random.uniform(-30, 50)
 
@@ -75,7 +75,7 @@ def generate_turbine_data_v7(num_records=50000):
         # FAILURE
         if delta_t < 8.6 and rpm < 1380:
             label_id = 2  # HDF
-        elif final_power < 1500 or final_power > 9500:
+        elif final_power < 1500 or final_power > 9000:
             label_id = 4  # PWF
         elif torque * state['tw'] > config['osf_limit']:
             label_id = 6; reset_required = True
@@ -83,12 +83,14 @@ def generate_turbine_data_v7(num_records=50000):
             label_id = 8; reset_required = True
         elif state['tw'] >= 200 and np.random.random() < 0.15:
             label_id = 8; reset_required = True
+        elif np.random.random() < 0.001:
+            label_id = 9
 
         # CAUTION
         elif label_id == 0:
             if delta_t < 10.0 and rpm < 1500:
                 label_id = 1
-            elif final_power < 2000 or final_power > 9000:
+            elif final_power < 2000 or final_power > 8000:
                 label_id = 3
             elif torque * state['tw'] > config['osf_limit'] * 0.8:
                 label_id = 5
@@ -115,11 +117,11 @@ def generate_turbine_data_v7(num_records=50000):
     columns = ["timestamp", "turbine_id", "turbine_type", "wind_kmh", "local_temp", "process_temp", "rpm", "power",
                "torque", "tool_wear", "label_id"]
     df = pd.DataFrame(data, columns=columns)
-    df.to_csv("turbine_fleet_final_v11.csv", index=False)
+    df.to_csv("turbine_fleet_final.csv", index=False)
 
     print("\nGenerator gotowy i zsynchronizowany z Javą!")
     print(df['label_id'].value_counts().sort_index())
 
 
 if __name__ == "__main__":
-    generate_turbine_data_v7()
+    generate_turbine_data()
