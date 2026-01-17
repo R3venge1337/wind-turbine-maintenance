@@ -24,7 +24,7 @@ enum FailureType {
             "Wysokie zużycie komponentów.",
             "Komponenty zużyte - wymagany serwis."),
 
-    RNF(9, 10, "Random Noise Failure",
+    RNF(9, 9, "Random Noise Failure",
             "Nieregularne odczyty czujników.",
             "Błąd krytyczny systemu pomiarowego.");
 
