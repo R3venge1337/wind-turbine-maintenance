@@ -1,7 +1,10 @@
 # WindSense AI - Predictive Maintenance System 🌬️⚙️
 
+**Author:** Adam Zimny  
+**Field of Study:** Informatics - Advanced Big Data Processing Methods
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)
+[![Java](https://img.shields.io/badge/Java-25-red)](https://openjdk.org/)
 [![Spark](https://img.shields.io/badge/Apache_Spark-3.5-blue)](https://spark.apache.org/)
 [![Kafka](https://img.shields.io/badge/Apache_Kafka-3.6-black)](https://kafka.apache.org/)
 
@@ -20,6 +23,17 @@ The core logic and failure patterns of this system are inspired by the academic 
 * **Adaptation:** The original dataset was transformed into a continuous stream and augmented with a custom **Mathematical Parameter Generation Model**.
 * **Wind Context:** We simulated real-time sensor readings for 50 turbines located in the Baltic Sea region (Gdańsk), incorporating aerodynamic efficiency (η) and local environmental conditions.
 
+### 🛠️ Dataset Adaptation & Extension (My Contributions)
+The original UCI dataset was significantly augmented and enriched to meet the requirements of modern Big Data systems and the specific physics of wind energy production. Key enhancements include:
+
+Thermal Inertia Implementation: Unlike the static UCI dataset, process temperature is calculated dynamically using exponential smoothing. This reflects the real physical characteristics of a turbine nacelle's heating and cooling cycles.
+
+De-icing System Logic: Introduced energy-cost logic for blade de-icing at temperatures below 2°C, which realistically impacts the net power output.
+
+Advanced Multi-Class Labeling: Transitioned from binary "failure/no-failure" classification to a granular 0-9 status system. This allows the model to distinguish between "Ideal State", "Caution" (early warnings), and specific "Failure" modes.
+
+Dynamic Physical Modeling: Redefined mathematical models to move away from static parameter generation. The new system utilizes causal dependencies to better map the relationship between torque, rotational speed, and drivetrain mechanics under real-world conditions.
+
 ## 🏗️ System Architecture
 The application follows a distributed architecture to ensure scalability and fault tolerance:
 
@@ -33,6 +47,8 @@ The system implements a sophisticated "Ground Truth" logic via the `TargetLabele
 * **HDF** (Heat Dissipation Failure)
 * **PWF** (Power Failure)
 * **OSF** (Overstrain Failure)
+* **TWF** (Tool Wear Failure)
+* **RNF** (Random Failure)
 
 ### Model Optimization
 To reach the **94.99% accuracy**, the system utilizes Spark's `CrossValidator` with a `ParamGridBuilder`, optimizing `maxDepth` and `numTrees` for the Random Forest model.
@@ -41,7 +57,7 @@ To reach the **94.99% accuracy**, the system utilizes Spark's `CrossValidator` w
 | Layer | Technology |
 | :--- | :--- |
 | **Frontend** | Angular 17+, RxJS, SCSS |
-| **Backend** | Java 17, Spring Boot 3, Hibernate |
+| **Backend** | Java 25, Spring Boot 3, Hibernate |
 | **Big Data** | Apache Kafka, Apache Spark (Streaming + MLlib) |
 | **Storage** | PostgreSQL, Liquibase (DB Evolutions) |
 | **DevOps** | Docker, Docker Compose |
@@ -63,7 +79,8 @@ Since sensitive data is not stored in the repository, you must create two files:
     ```
 * **`secret.properties`** (in `backend/src/main/resources/`):
     ```properties
-    spring.datasource.url=jdbc:postgresql://localhost:5432/windTurbineMaintenance?WriteBatchedInserts=true
+    spring.datasource.url=jdbc:postgresql://postgres:5432/windTurbineMaintenancere?WriteBatchedInserts=true
+    spring.liquibase.url=jdbc:postgresql://postgres:5432/windTurbineMaintenance?WriteBatchedInserts=true
     spring.datasource.username=postgres
     spring.datasource.password=postgres
     ```
@@ -104,3 +121,33 @@ cd ../frontend
 npm install
 ng serve
 ```
+## 🛠️ Frontend View
+
+<img width="1866" height="933" alt="Image" src="https://github.com/user-attachments/assets/0b843f7f-00f2-4981-887f-ce61c144a181" />
+
+<img width="1856" height="924" alt="Image" src="https://github.com/user-attachments/assets/3fb81b81-c75a-452c-addf-a4e818985fa4" />
+
+<img width="1869" height="929" alt="Image" src="https://github.com/user-attachments/assets/653857ab-a424-4a94-8ed8-491d6c1c725a" />
+
+<img width="1863" height="931" alt="Image" src="https://github.com/user-attachments/assets/ed3d461c-11b7-48bc-85e0-f39b5348f322" />
+
+<img width="1857" height="932" alt="Image" src="https://github.com/user-attachments/assets/d26c409c-821e-4ced-95ee-cb8ff19e29de" />
+
+<img width="1862" height="935" alt="Image" src="https://github.com/user-attachments/assets/45f5aca0-be50-4cfa-8d27-a4db7b04f9c3" />
+
+<img width="1861" height="928" alt="Image" src="https://github.com/user-attachments/assets/a0c618a6-ee2e-4988-bae8-d12d0cf7bda0" />
+
+<img width="1864" height="925" alt="Image" src="https://github.com/user-attachments/assets/f05d4e4a-06d7-4700-ab3f-9542ba0859ef" />
+
+<img width="1858" height="933" alt="Image" src="https://github.com/user-attachments/assets/49604ed0-3340-4057-9790-63a8fd98bd4b" />
+
+<img width="1867" height="926" alt="Image" src="https://github.com/user-attachments/assets/b4cbc8fc-45b6-43f3-a80c-eed42a6d128f" />
+
+## 📊 Dataset Analysis
+Correlation matrices, Confusion matrix and feature importance visualization used during the ML training phase.
+
+<img width="1055" height="1126" alt="Image" src="https://github.com/user-attachments/assets/a04df19d-3ab6-427b-bc97-2e6a4cabf6e7" />
+
+<img width="937" height="855" alt="Image" src="https://github.com/user-attachments/assets/202bab36-8f7a-48fe-9e41-fc7cb81e5ba3" />
+
+<img width="1189" height="790" alt="Image" src="https://github.com/user-attachments/assets/2a3f7643-1e4d-4c8d-ba31-3a07fcd16f33" />
