@@ -15,8 +15,8 @@ import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { TurbineCardComponent } from "../turbine-card-component/turbine-card-component";
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import { TurbineMapper } from '../../../../shared/models/mappers/turbineMapper';
 import { TranslateModule } from '@ngx-translate/core';
+import { TurbineMapper } from '../../../../shared/mappers/turbineMapper';
 
 
 @Component({
